@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "training_bucket" {
   bucket = "demo1-bucket-testing"
-  tags              = {
-  team              = "devops"
-  terraform_managed = true
+  tags = {
+    team              = "devops"
+    terraform_managed = true
   }
 }
 
