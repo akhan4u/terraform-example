@@ -46,6 +46,7 @@ resource "aws_instance" "ec2" {
   # An example of local command execution
   # This gets executed post resource creation on the machine where terraform commands are run from
   provisioner "local-exec" {
+    when    = destroy
     command = "echo ${self.private_ip} >> private_ips.txt"
   }
 
