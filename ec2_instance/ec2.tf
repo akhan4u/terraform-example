@@ -11,7 +11,7 @@ resource "tls_private_key" "ec2" {
 }
 
 resource "aws_key_pair" "ec2" {
-  key_name   = "terraform-ec2-key"
+  key_name   = "${var.instance_name}-${var.environment}"
   public_key = tls_private_key.ec2.public_key_openssh
 }
 
@@ -38,23 +38,24 @@ resource "aws_security_group" "ec2_access" {
   }
 
   tags = {
-    Name = "allow_ssh"
+    Name        = "allow_ssh"
+    Environment = var.environment
   }
-
 }
 
 resource "aws_instance" "ec2" {
   ami                         = data.aws_ami.ubuntu.image_id
-  instance_type               = "t2.micro"
-  associate_public_ip_address = true
+  instance_type               = var.instance_type
+  associate_public_ip_address = var.instance_public
   key_name                    = aws_key_pair.ec2.key_name
   vpc_security_group_ids      = [aws_security_group.ec2_access.id]
   subnet_id                   = tolist(data.aws_subnet_ids.private.ids)[0]
   root_block_device {
-    volume_size = 50
-    volume_type = "gp3"
+    volume_size = var.root_ebs_size
+    volume_type = var.root_ebs_type
   }
   tags = {
-    Name = "EC2 demo instance"
+    Name        = "${var.instance_name}-${var.environment}"
+    Environment = var.environment
   }
 }
