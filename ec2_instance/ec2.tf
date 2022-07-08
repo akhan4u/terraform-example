@@ -50,6 +50,31 @@ resource "aws_instance" "ec2" {
   key_name                    = aws_key_pair.ec2.key_name
   vpc_security_group_ids      = [aws_security_group.ec2_access.id]
   subnet_id                   = tolist(data.aws_subnet_ids.private.ids)[0]
+
+  # Copies the ssh_key file in /tmp dir
+  provisioner "file" {
+    source      = "/tmp/ssh_key.pem"
+    destination = "/tmp/ssh_key"
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("/tmp/ssh_key.pem")
+      host        = self.public_ip
+    }
+  }
+
+  # Copies the string in content into /tmp/file.log
+  provisioner "file" {
+    content     = "ami used: ${data.aws_ami.ubuntu.image_id}"
+    destination = "/tmp/file.log"
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("/tmp/ssh_key.pem")
+      host        = self.public_ip
+    }
+  }
+
   root_block_device {
     volume_size = 50
     volume_type = "gp3"
