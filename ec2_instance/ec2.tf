@@ -1,11 +1,3 @@
-data "aws_vpc" "selected" {
-  default = true
-}
-
-data "aws_subnet_ids" "private" {
-  vpc_id = data.aws_vpc.selected.id
-}
-
 resource "tls_private_key" "ec2" {
   algorithm = "ED25519"
 }
