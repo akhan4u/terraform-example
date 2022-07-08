@@ -50,6 +50,13 @@ resource "aws_instance" "ec2" {
   key_name                    = aws_key_pair.ec2.key_name
   vpc_security_group_ids      = [aws_security_group.ec2_access.id]
   subnet_id                   = tolist(data.aws_subnet_ids.private.ids)[0]
+
+  # An example of local command execution
+  # This gets executed post resource creation on the machine where terraform commands are run from
+  provisioner "local-exec" {
+    command = "echo ${self.private_ip} >> private_ips.txt"
+  }
+
   root_block_device {
     volume_size = 50
     volume_type = "gp3"
