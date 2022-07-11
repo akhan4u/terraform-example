@@ -7,3 +7,10 @@ provider "registry.terraform.io/hashicorp/aws" {
     "h1:HHfwMYY0FDtMzaGgITqsPIBlUWnQNZ5+bTF1dyscsnw=",
   ]
 }
+
+provider "registry.terraform.io/hashicorp/tls" {
+  version = "3.4.0"
+  hashes = [
+    "h1:oyllIA9rNGCFtClSyBitUIzCXdnKtspVepdsvpLlfys=",
+  ]
+}
