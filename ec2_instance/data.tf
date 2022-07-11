@@ -13,3 +13,11 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+
+data "aws_vpc" "selected" {
+  default = true
+}
+
+data "aws_subnet_ids" "private" {
+  vpc_id = data.aws_vpc.selected.id
+}
