@@ -1,5 +1,5 @@
 environment     = "development"
-instance_name   = "public"
+instance_name   = "insite"
 instance_public = true
 instance_type   = "t2.micro"
 root_ebs_size   = 50
