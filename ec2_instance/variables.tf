@@ -7,6 +7,10 @@ variable "environment" {
   }
 }
 
+variable "aws_region" {
+  type = string
+}
+
 variable "instance_name" {
   description = "Defines the name of EC2 Instance"
   type        = string
@@ -36,3 +40,17 @@ variable "root_ebs_type" {
   description = "Type of the EBS volume"
   type        = string
 }
+
+variable "ec2_details" {
+  type        = map(any)
+  description = "Details of EC2 Instances"
+  default = {
+    "us-west-1" = "ami-040a251ee9d7d1a9b" #Ubuntu Focal (20.04)---Region (us-west-1)
+    "us-west-2" = "ami-0aab355e1bfa1e72e" #Ubuntu Focal (20.04)---Region (us-west-2)
+  }
+}
+
+# Getting Key value from variable of Map type with lookup() function : lookup(var.ec2_details, var.key, error)
+# Example Lookup of AMI, with Region as Key and AMI Id as value
+#       ami = "lookup(var.ec2_details, var.region, error)"
+# OR    ami = var.amis[var.region]

@@ -36,7 +36,7 @@ resource "aws_security_group" "ec2_access" {
 }
 
 resource "aws_instance" "ec2" {
-  ami                         = data.aws_ami.ubuntu.image_id
+  ami                         = lookup(var.ec2_details, var.aws_region)
   instance_type               = var.instance_type
   associate_public_ip_address = var.instance_public
   key_name                    = aws_key_pair.ec2.key_name
